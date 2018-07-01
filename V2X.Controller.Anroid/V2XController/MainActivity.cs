@@ -7,6 +7,7 @@ using System;
 using System.Text;
 using Android.Content.PM;
 using Android.Views;
+using RasPiBtControl.Droid.Services;
 
 namespace RaspRCTruckOrginal
 {
@@ -15,8 +16,19 @@ namespace RaspRCTruckOrginal
     {
         Button btnStop;
         Button btnStart;
+        string macAddressOfPi = "B8:27:EB:AC:7E:16";
+        BtClient _btClient;
         public MainActivity()
         {
+            try
+            {
+                _btClient = new BtClient();
+                _btClient.Connect(macAddressOfPi);
+            }
+            catch(Exception ex)
+            {
+                Toast.MakeText(this, "Bluetooth Connection error", ToastLength.Long).Show();
+            }
             //RequestWindowFeature(WindowFeatures.NoTitle);
             //Remove notification bar
             //Window.SetFlags(WindowManagerFlags.Fullscreen, WindowManagerFlags.Fullscreen);
@@ -40,6 +52,7 @@ namespace RaspRCTruckOrginal
         {
             btnStop.Visibility = ViewStates.Visible;
             btnStart.Visibility = ViewStates.Invisible;
+            _btClient.SendData("Start");
             Toast.MakeText(this, "Hello from Start", ToastLength.Long).Show();
         }
         public void btnStop_OnClick(object sender, EventArgs args)

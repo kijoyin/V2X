@@ -26,7 +26,7 @@ namespace RasPiBtControl.Droid.Services
 
         public bool IsConnected => btDevice != null;
 
-        public BtClient(MainActivity mainActivity)
+        public BtClient()
         {
         }
 
