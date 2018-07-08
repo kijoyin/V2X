@@ -149,20 +149,20 @@ LEFTPOS = 38
 LEFTNEG = 40
 RIGHTPOS = 11
 RIGHTNEG = 13
+gpio.setmode(gpio.BCM)
 gpio.setup(PMW, gpio.OUT)
 speed = 100
 pwm = GPIO.PWM(PMWPIN, speed)
 
 
 def init():
-    gpio.setmode(gpio.BCM)
     gpio.setup(LEFTPOS, gpio.OUT)
     gpio.setup(LEFTNEG, gpio.OUT)
     gpio.setup(RIGHTPOS, gpio.OUT)
     gpio.setup(RIGHTNEG, gpio.OUT)
     
 
-def accelerate(acc)
+def accelerate(acc):
     if(acc and speed < 100)
         speed = speed + 5
         print("faster")
