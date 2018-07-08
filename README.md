@@ -21,3 +21,7 @@ sudo sdptool add SP (Permission denied error once i run the python code at this 
 Running as SUDO fixed the issue for me
 
 Also i this point I have the bluetooth discoveralbe and connected to my Anroid phone (Not sure this is needed)
+
+## Sending message from Phone
+
+Find the MAC address of pi bluetooth - Run hciconfig on PI to get that
