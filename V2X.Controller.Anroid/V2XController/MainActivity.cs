@@ -21,6 +21,7 @@ namespace RaspRCTruckOrginal
         Button btnSlow;
         Button btnFast;
         string macAddressOfPi = "B8:27:EB:AC:7E:16";
+        bool isStarted = false;
         BtClient _btClient;
         public MainActivity()
         {
@@ -60,8 +61,16 @@ namespace RaspRCTruckOrginal
 
             btnSlow = FindViewById<Button>(Resource.Id.btnSlow);
             btnSlow.Click += btnSlow_OnClick;
+            ToggleEnable(false);
 
+        }
 
+        private void ToggleEnable(bool status)
+        {
+            btnLeft.Enabled = status;
+            btnRight.Enabled = status;
+            btnSlow.Enabled = status;
+            btnFast.Enabled = status;
         }
 
         private void btnSlow_OnClick(object sender, EventArgs e)
@@ -88,6 +97,7 @@ namespace RaspRCTruckOrginal
         {
             btnStop.Visibility = ViewStates.Visible;
             btnStart.Visibility = ViewStates.Invisible;
+            ToggleEnable(true);
             _btClient.SendData("Start");
             Toast.MakeText(this, "Hello from Start", ToastLength.Long).Show();
         }
@@ -95,6 +105,7 @@ namespace RaspRCTruckOrginal
         {
             btnStop.Visibility = ViewStates.Invisible;
             btnStart.Visibility = ViewStates.Visible;
+            ToggleEnable(false);
             _btClient.SendData("Stop");
             Toast.MakeText(this, "Hello from Stop", ToastLength.Long).Show();
         }
