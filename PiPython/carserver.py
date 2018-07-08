@@ -105,17 +105,25 @@ def main():
                 break
 
             print("Received [%s]" % data)
-
+            data = data.decode("utf-8") 
             # Handle the request
             if data == "getop":
                 response = "op:%s" % ",".join(operations)
-            elif data == "Start":
-                response = "msg:Pong"
-            elif data == "example":
-                response = "msg:This is an example"
+            elif data == 'Start':
+                response = "msg:Starting the car"
+            elif data == 'Stop':
+                response = "msg:Stopping the car"
+            elif data == 'Left':
+                response = "msg:Turning left"
+            elif data == 'Right':
+                response = "msg:Turning right"
+            elif data == 'Accelerate':
+                response = "msg:Increasing speed"
+            elif data == 'Decelerate'
+                response = "msg:Decreasing speed"
             # Insert more here
             else:
-                response = "msg:Not supported"
+                response = data
 
             client_sock.send(response)
             print("Sent back [%s]" % response)
