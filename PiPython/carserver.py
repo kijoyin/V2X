@@ -4,6 +4,7 @@ import argparse
 import sys
 import os
 import time
+import RPi.GPIO as gpio
 from bluetooth.bluez import *
 
 
@@ -119,8 +120,10 @@ def main():
                 response = "msg:Turning right"
             elif data == 'Accelerate':
                 response = "msg:Increasing speed"
+                accelerate(True)
             elif data == 'Decelerate':
                 response = "msg:Decreasing speed"
+                accelerate(False)
             # Insert more here
             else:
                 response = data
@@ -140,5 +143,33 @@ def main():
 
             print("Server going down")
             break
+
+PMWPIN = 33
+LEFTPOS = 38
+LEFTNEG = 40
+RIGHTPOS = 11
+RIGHTNEG = 13
+gpio.setup(PMW, gpio.OUT)
+speed = 100
+pwm = GPIO.PWM(PMWPIN, speed)
+
+
+def init():
+    gpio.setmode(gpio.BCM)
+    gpio.setup(LEFTPOS, gpio.OUT)
+    gpio.setup(LEFTNEG, gpio.OUT)
+    gpio.setup(RIGHTPOS, gpio.OUT)
+    gpio.setup(RIGHTNEG, gpio.OUT)
+    
+
+def accelerate(acc)
+    if(acc and speed < 100)
+        speed = speed + 5
+        print("faster")
+    elif(acc != True and speed > 0 )
+        speed = speed - 5
+        print("slower")
+    print(speed)    
+
 
 main()
