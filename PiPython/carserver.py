@@ -119,7 +119,7 @@ def main():
                 response = "msg:Turning right"
             elif data == 'Accelerate':
                 response = "msg:Increasing speed"
-            elif data == 'Decelerate'
+            elif data == 'Decelerate':
                 response = "msg:Decreasing speed"
             # Insert more here
             else:
