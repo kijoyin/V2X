@@ -88,8 +88,6 @@ def main():
     # Feel free to add more
     operations = ["Start", "ping", "example"]
 
-	init()
-
     # Main Bluetooth server loop
     while True:
 
@@ -138,34 +136,38 @@ def main():
 
         except KeyboardInterrupt:
 
+            gpio.cleanup()
+            
             if client_sock is not None:
                 client_sock.close()
 
             server_sock.close()
+	    
 
             print("Server going down")
             break
 
 
 
+speed = 100
 
 def init():
-	PMWPIN = 18
-	LEFTPOS = 38
-	LEFTNEG = 40
-	RIGHTPOS = 11
-	RIGHTNEG = 13
-	gpio.setmode(gpio.BCM)
-	gpio.setup(PMWPIN, gpio.OUT)
-	speed = 100
-	pwm = GPIO.PWM(PMWPIN, speed)
+    PMWPIN = 18
+    LEFTPOS = 38
+    LEFTNEG = 40
+    RIGHTPOS = 11
+    RIGHTNEG = 13
+    gpio.setmode(gpio.BCM)
     gpio.setup(LEFTPOS, gpio.OUT)
     gpio.setup(LEFTNEG, gpio.OUT)
     gpio.setup(RIGHTPOS, gpio.OUT)
     gpio.setup(RIGHTNEG, gpio.OUT)
+    gpio.setup(PMWPIN, gpio.OUT)
+    pwm = gpio.PWM(PMWPIN, speed)
     
 
 def accelerate(acc):
+    global speed
     if(acc and speed < 100):
         speed = speed + 5
         print("faster")
@@ -174,5 +176,6 @@ def accelerate(acc):
         print("slower")
     print(speed)    
 
-
+init()
 main()
+
