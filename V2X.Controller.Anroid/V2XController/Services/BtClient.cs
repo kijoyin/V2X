@@ -62,7 +62,7 @@ namespace RasPiBtControl.Droid.Services
             try
             {
                 // Create a RFCOMM socket and connect
-                var socket = btDevice.CreateRfcommSocketToServiceRecord(Java.Util.UUID.FromString(BtDeviceInfo.RequiredServiceID));
+                var socket = btDevice.CreateInsecureRfcommSocketToServiceRecord(Java.Util.UUID.FromString(BtDeviceInfo.RequiredServiceID));
                 socket.Connect();
 
                 // Setup receiving data before sending any data to the server

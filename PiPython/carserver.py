@@ -144,7 +144,7 @@ def main():
             print("Server going down")
             break
 
-PMWPIN = 33
+PMWPIN = 18
 LEFTPOS = 38
 LEFTNEG = 40
 RIGHTPOS = 11
