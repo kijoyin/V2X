@@ -1,5 +1,9 @@
 # VZX
 
+## Warning
+
+PIN 33 will crash bluetooth (a day wasted)
+
 ## Setting up Pi for Bluetooth Serial Conneciton
 
 sudo apt-get update
