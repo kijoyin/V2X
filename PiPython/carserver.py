@@ -88,11 +88,13 @@ def main():
     # Feel free to add more
     operations = ["Start", "ping", "example"]
 
+    init()
+
     # Main Bluetooth server loop
     while True:
 
         print("Waiting for connection on RFCOMM channel %d" % port)
-
+        
         try:
             client_sock = None
 
@@ -112,12 +114,19 @@ def main():
                 response = "op:%s" % ",".join(operations)
             elif data == 'Start':
                 response = "msg:Starting the car"
+                start()
+            elif data == 'Reverse':
+                response = "msg:Starting the car"
+                reverse()
             elif data == 'Stop':
                 response = "msg:Stopping the car"
+                stop()
             elif data == 'Left':
                 response = "msg:Turning left"
+                turnLeft()
             elif data == 'Right':
                 response = "msg:Turning right"
+                turnRight()
             elif data == 'Accelerate':
                 response = "msg:Increasing speed"
                 accelerate(True)
@@ -136,43 +145,108 @@ def main():
 
         except KeyboardInterrupt:
 
+            gpio.cleanup()
+            
             if client_sock is not None:
                 client_sock.close()
 
             server_sock.close()
-			GPIO.cleanup()
+	    
 
             print("Server going down")
             break
 
 
-
+forward = True
+speed = 5
+PMWPIN = 18
+LEFTForward = 20
+LEFTBackward = 21
+RIGHTForward = 19
+RIGHTBackward = 26
+gpio.setmode(gpio.BCM)
+gpio.setup(PMWPIN, gpio.OUT)
+pwm = gpio.PWM(PMWPIN, speed)
 
 def init():
-	PMWPIN = 18
-	LEFTPOS = 38
-	LEFTNEG = 40
-	RIGHTPOS = 11
-	RIGHTNEG = 13
-	gpio.setmode(gpio.BCM)
-    gpio.setup(LEFTPOS, gpio.OUT)
-    gpio.setup(LEFTNEG, gpio.OUT)
-    gpio.setup(RIGHTPOS, gpio.OUT)
-    gpio.setup(RIGHTNEG, gpio.OUT)
-	gpio.setup(PMWPIN, gpio.OUT)
-
-	speed = 100
-	pwm = gpio.PWM(PMWPIN, speed)
+    gpio.setup(LEFTForward, gpio.OUT)
+    gpio.setup(LEFTBackward, gpio.OUT)
+    gpio.setup(RIGHTForward, gpio.OUT)
+    gpio.setup(RIGHTBackward, gpio.OUT)
+    gpio.output(LEFTForward,gpio.LOW)
+    gpio.output(LEFTBackward,gpio.LOW)
+    gpio.output(RIGHTForward,gpio.LOW)
+    gpio.output(RIGHTBackward,gpio.LOW)
     
+def start():
+    forward = True
+    gpio.output(LEFTBackward,gpio.LOW)
+    gpio.output(LEFTForward, gpio.HIGH)
+    gpio.output(RIGHTBackward,gpio.LOW)
+    gpio.output(RIGHTForward, gpio.HIGH)
+    pwm.start(1)
+    speed = 5
+    pwm.ChangeDutyCycle(speed)
+
+def reverse():
+    forward = False
+    gpio.output(LEFTBackward,gpio.HIGH)
+    gpio.output(LEFTForward, gpio.LOW)
+    gpio.output(RIGHTBackward,gpio.HIGH)
+    gpio.output(RIGHTForward, gpio.LOW)
+    pwm.start(1)
+    speed = 50
+    pwm.ChangeDutyCycle(speed)
+    
+def stop():
+    speed =50
+    pwm.ChangeDutyCycle(speed)
+    pwm.stop()
+    gpio.output(LEFTForward, gpio.LOW)
+    gpio.output(RIGHTForward, gpio.LOW)
+    gpio.output(LEFTBackward,gpio.LOW)
+    gpio.output(RIGHTBackward,gpio.LOW)
+
+def turnLeft():
+    if(forward):
+        stopStartLeft()
+    else:
+        stopStartRight()
+
+def turnRight():
+    if(forward):
+        stopStartRight()
+    else:
+        stopStartLeft()
+
+def stopStartLeft():
+    gpio.output(LEFTForward, gpio.LOW)
+    gpio.output(LEFTBackward,gpio.LOW)
+    time.sleep(.5)
+    if(forward):
+        gpio.output(LEFTForward, gpio.HIGH)
+    else:
+        gpio.output(LEFTBackward,gpio.HIGH)
+    
+def stopStartRight():
+    gpio.output(RIGHTForward, gpio.LOW)
+    gpio.output(RIGHTBackward,gpio.LOW)
+    time.sleep(.5)
+    if(forward):
+        gpio.output(RIGHTForward, gpio.HIGH)
+    else:
+        gpio.output(RIGHTBackward,gpio.HIGH)
 
 def accelerate(acc):
-    if(acc and speed < 100):
+    global speed
+    if(acc and speed < 90):
         speed = speed + 5
+        pwm.ChangeDutyCycle(speed)
         print("faster")
-    elif(acc != True and speed > 0 ):
+    elif(acc != True and speed > 5 ):
         speed = speed - 5
+        pwm.ChangeDutyCycle(speed)
         print("slower")
     print(speed)    
 
-init()
 main()

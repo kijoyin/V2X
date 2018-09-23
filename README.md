@@ -1,5 +1,9 @@
 # VZX
 
+## Warning
+
+PIN 33 will crash bluetooth (a day wasted)
+
 ## Setting up Pi for Bluetooth Serial Conneciton
 
 sudo apt-get update
@@ -25,3 +29,26 @@ Also i this point I have the bluetooth discoveralbe and connected to my Anroid p
 ## Sending message from Phone
 
 Find the MAC address of pi bluetooth - Run hciconfig on PI to get that
+
+## Setting up Python to run as a server
+sudo nano /lib/systemd/system/carserver.service
+
+### Add the following text
+
+[Unit]
+ Description=Carserver
+ After=multi-user.target
+
+ [Service]
+ Type=idle
+ ExecStart=/usr/bin/python /home/pi/Desktop/carserver.py
+
+ [Install]
+ WantedBy=multi-user.target
+ 
+ ### Save the text and Run the following commands
+ sudo chmod 644 /lib/systemd/system/carserver.service
+ sudo systemctl daemon-reload
+ sudo systemctl enable carserver.service
+ sudo reboot
+
