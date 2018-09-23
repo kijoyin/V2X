@@ -23,6 +23,7 @@ namespace RasPiBtControl.Droid.Services
     public class BtClient : IBtClient
     {
         private BluetoothDevice btDevice;
+        private BluetoothSocket socket;
 
         public bool IsConnected => btDevice != null;
 
@@ -61,22 +62,26 @@ namespace RasPiBtControl.Droid.Services
 
             try
             {
-                // Create a RFCOMM socket and connect
-                var socket = btDevice.CreateInsecureRfcommSocketToServiceRecord(Java.Util.UUID.FromString(BtDeviceInfo.RequiredServiceID));
-                socket.Connect();
-
-                // Setup receiving data before sending any data to the server
-                var streamAndData = new StreamAndData(socket.InputStream);
-                streamAndData.stream.BeginRead(streamAndData.data, 0, streamAndData.data.Length, new AsyncCallback((ar) =>
+                if (socket == null || !socket.IsConnected)
                 {
-                    var asyncState = (StreamAndData)ar.AsyncState;
-                    var bytesRead = streamAndData.stream.EndRead(ar);
-                    var incomingData = Encoding.ASCII.GetString(streamAndData.data, 0, bytesRead);
+                    // Create a RFCOMM socket and connect
+                    socket = btDevice.CreateRfcommSocketToServiceRecord(Java.Util.UUID.FromString(BtDeviceInfo.RequiredServiceID));
 
-                    ReceivedData?.Invoke(this, incomingData);
+                    var test = btDevice.GetUuids();
+                    socket.Connect();
 
-                }), streamAndData);
+                    // Setup receiving data before sending any data to the server
+                    var streamAndData = new StreamAndData(socket.InputStream);
+                    streamAndData.stream.BeginRead(streamAndData.data, 0, streamAndData.data.Length, new AsyncCallback((ar) =>
+                    {
+                        var asyncState = (StreamAndData)ar.AsyncState;
+                        var bytesRead = streamAndData.stream.EndRead(ar);
+                        var incomingData = Encoding.ASCII.GetString(streamAndData.data, 0, bytesRead);
 
+                        ReceivedData?.Invoke(this, incomingData);
+
+                    }), streamAndData);
+                }
                 // Send the data
                 using (var sw = new StreamWriter(socket.OutputStream))
                 {
@@ -85,6 +90,7 @@ namespace RasPiBtControl.Droid.Services
             }
             catch (Exception ex)
             {
+                socket.Close();
                 ReceivedData?.Invoke(this, $"msg:{ex.ToString()}");
             }
         }

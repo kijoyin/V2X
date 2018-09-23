@@ -5,18 +5,34 @@ VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "V2XController", "V2XController\V2XController.csproj", "{F1239ABB-F4EA-4EC8-A4C2-5FA6D0E3469F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CarServer", "CarServer\CarServer.vcxproj", "{BB64EE67-AB9B-4839-88F1-52044AEAEBE6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM = Debug|ARM
 		Release|Any CPU = Release|Any CPU
+		Release|ARM = Release|ARM
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F1239ABB-F4EA-4EC8-A4C2-5FA6D0E3469F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F1239ABB-F4EA-4EC8-A4C2-5FA6D0E3469F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1239ABB-F4EA-4EC8-A4C2-5FA6D0E3469F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F1239ABB-F4EA-4EC8-A4C2-5FA6D0E3469F}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{F1239ABB-F4EA-4EC8-A4C2-5FA6D0E3469F}.Debug|ARM.Build.0 = Debug|Any CPU
+		{F1239ABB-F4EA-4EC8-A4C2-5FA6D0E3469F}.Debug|ARM.Deploy.0 = Debug|Any CPU
 		{F1239ABB-F4EA-4EC8-A4C2-5FA6D0E3469F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1239ABB-F4EA-4EC8-A4C2-5FA6D0E3469F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F1239ABB-F4EA-4EC8-A4C2-5FA6D0E3469F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F1239ABB-F4EA-4EC8-A4C2-5FA6D0E3469F}.Release|ARM.ActiveCfg = Release|Any CPU
+		{F1239ABB-F4EA-4EC8-A4C2-5FA6D0E3469F}.Release|ARM.Build.0 = Release|Any CPU
+		{F1239ABB-F4EA-4EC8-A4C2-5FA6D0E3469F}.Release|ARM.Deploy.0 = Release|Any CPU
+		{BB64EE67-AB9B-4839-88F1-52044AEAEBE6}.Debug|Any CPU.ActiveCfg = Debug|ARM
+		{BB64EE67-AB9B-4839-88F1-52044AEAEBE6}.Debug|ARM.ActiveCfg = Debug|ARM
+		{BB64EE67-AB9B-4839-88F1-52044AEAEBE6}.Debug|ARM.Build.0 = Debug|ARM
+		{BB64EE67-AB9B-4839-88F1-52044AEAEBE6}.Release|Any CPU.ActiveCfg = Release|ARM
+		{BB64EE67-AB9B-4839-88F1-52044AEAEBE6}.Release|ARM.ActiveCfg = Release|ARM
+		{BB64EE67-AB9B-4839-88F1-52044AEAEBE6}.Release|ARM.Build.0 = Release|ARM
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

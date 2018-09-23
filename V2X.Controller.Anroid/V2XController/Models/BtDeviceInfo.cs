@@ -8,8 +8,8 @@ namespace RasPiBtControl.Model
 {
     public class BtDeviceInfo
     {
-        public const string RequiredServiceID = "7be1fcb3-5776-42fb-91fd-2ee7b5bbb86d";
-
+        public const string RequiredServiceID = "00001101-0000-1000-8000-00805f9b34fb";
+        //public const string RequiredServiceID = "7be1fcb3-5776-42fb-91fd-2ee7b5bbb86d";
         public string Name { get; set; }
         public string Address { get; set; }
         public bool ServicesDiscovered { get; set; }

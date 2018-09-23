@@ -75,22 +75,22 @@ namespace RaspRCTruckOrginal
 
         private void btnSlow_OnClick(object sender, EventArgs e)
         {
-            _btClient.SendData("Decelerate");
+            _btClient.SendData("D");
         }
 
         private void btnFast_OnClick(object sender, EventArgs e)
         {
-            _btClient.SendData("Accelerate");
+            _btClient.SendData("A");
         }
 
         private void btnRight_OnClick(object sender, EventArgs e)
         {
-            _btClient.SendData("Right");
+            _btClient.SendData("R");
         }
 
         private void btnLeft_OnClick(object sender, EventArgs e)
         {
-            _btClient.SendData("Left");
+            _btClient.SendData("L");
         }
 
         public void btnStart_OnClick(object sender, EventArgs args)
@@ -98,7 +98,7 @@ namespace RaspRCTruckOrginal
             btnStop.Visibility = ViewStates.Visible;
             btnStart.Visibility = ViewStates.Invisible;
             ToggleEnable(true);
-            _btClient.SendData("Start");
+            _btClient.SendData("S");
             Toast.MakeText(this, "Hello from Start", ToastLength.Long).Show();
         }
         public void btnStop_OnClick(object sender, EventArgs args)
@@ -106,7 +106,7 @@ namespace RaspRCTruckOrginal
             btnStop.Visibility = ViewStates.Invisible;
             btnStart.Visibility = ViewStates.Visible;
             ToggleEnable(false);
-            _btClient.SendData("Stop");
+            _btClient.SendData("P");
             Toast.MakeText(this, "Hello from Stop", ToastLength.Long).Show();
         }
 
